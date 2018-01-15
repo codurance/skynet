@@ -37,3 +37,12 @@ print(error(expected_output, [1.22, 2.44, 3.66]) == 1.4196)
 print(error_derivative(expected_output, [1.22, 2.44, 3.66], input) == -3.64)
 print(forward(input, 1.22) == [1.22, 2.44, 3.66])
 print(backward(weight, -5.59) == 1.219)
+
+err = 1
+while(err!= 0):
+    output = forward(input, weight)
+    print(output)
+    err = error(expected_output, output)
+    print("Error = ", err)
+    error_deriv = error_derivative(expected_output, output, input)
+    weight = backward(weight, error_deriv)
