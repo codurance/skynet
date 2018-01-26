@@ -40,9 +40,12 @@ print(backward(weight, -5.59) == 1.219)
 
 err = 1
 while(err!= 0):
+    print("================")
+    print("weight = ", weight)
     output = forward(input, weight)
     print(output)
     err = error(expected_output, output)
     print("Error = ", err)
     error_deriv = error_derivative(expected_output, output, input)
+    print("Error derivative = ", error_deriv)
     weight = backward(weight, error_deriv)
