@@ -13,6 +13,9 @@ def error(expected_output, actual_output):
 def error_derivative_with_respect_to_output(computed_output, training_output):
     return (1/len(computed_output)) * np.sum(np.subtract(computed_output, training_output))
 
+def output_derivative_with_respect_to_weight(inputs):
+    return inputs
+
 def forward(inputs, weight, bias):
     return np.add(np.dot(inputs, weight), bias)
 
@@ -37,12 +40,12 @@ def main():
         error_deriv_wrt_c = error_derivative_with_respect_to_c(expected_output, output)
         bias = back_propagate(bias, error_deriv_wrt_c)
 
-
 def test():
     print("running tests")
     forward_test()
     error_test()
     error_derivative_with_respect_to_output_test()
+    output_derivative_with_respect_to_weight_test()
 
 def forward_test():
     inputs = [[1, 2], [3, 4]]
@@ -64,7 +67,12 @@ def error_derivative_with_respect_to_output_test():
     training_output = [1, 0, 9] 
     expected_error_derivative = 158
     result = error_derivative_with_respect_to_output(computed_output, training_output)
-    print(result)
     print("dE/dy test passes!!!: ", result == expected_error_derivative) 
+
+def output_derivative_with_respect_to_weight_test():
+    inputs = [1, 2]
+    expected_output = [1, 2]
+    result = output_derivative_with_respect_to_weight(inputs)
+    print("dy/dw passes!!: ", np.array_equal(result, expected_output))
 
 test()
