@@ -10,20 +10,9 @@ def error(expected_output, actual_output):
     error = sum/ (2.0 * len(expected_output))
     return error
 
-def error_derivative_with_respect_to_m(expected_output, actual_output, input):
-    sum = 0
-    for index, item in enumerate(expected_output):
-        sum += (actual_output[index] - item) * input[index]       
-    derivative = sum/ len(expected_output)
-    return derivative
+def error_derivative_with_respect_to_output(computed_output, training_output):
+    return (1/len(computed_output)) * np.sum(np.subtract(computed_output, training_output))
 
-def error_derivative_with_respect_to_c(expected_output, actual_output):
-    sum = 0
-    for index, item in enumerate(expected_output):
-        sum += (actual_output[index] - item) 
-    derivative = sum/ len(expected_output)
-    return derivative
-    
 def forward(inputs, weight, bias):
     return np.add(np.dot(inputs, weight), bias)
 
@@ -53,6 +42,7 @@ def test():
     print("running tests")
     forward_test()
     error_test()
+    error_derivative_with_respect_to_output_test()
 
 def forward_test():
     inputs = [[1, 2], [3, 4]]
@@ -68,5 +58,13 @@ def error_test():
     expected_error = 42.5
     result = error(computed_output, training_output)
     print("Error test passes: ", result == expected_error)
+
+def error_derivative_with_respect_to_output_test():
+    computed_output = [5, 17, 462]
+    training_output = [1, 0, 9] 
+    expected_error_derivative = 158
+    result = error_derivative_with_respect_to_output(computed_output, training_output)
+    print(result)
+    print("dE/dy test passes!!!: ", result == expected_error_derivative) 
 
 test()
